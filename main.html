@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safigo - Women's Safety App</title>
+    <link rel="stylesheet" href="styleformain.css">
+    <style>
+        /* Floating Bubble Effect */
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .bubble {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle, #ff4081, #6a1b9a);
+            opacity: 0.6;
+            border-radius: 50%;
+            animation: float 6s linear infinite;
+        }
+
+        body {
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* SOS Button */
+        .sos-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 15px;
+            background: red;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Bubble Animation Background -->
+    <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>Safigo</h1>
+    </header>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+        <div class="profile-container">
+            <div class="profile">
+                <!-- <div class="profile-pic">👤</div>
+                <div class="profile-info">
+                    <h2 id="userName">User Name</h2>
+                    <p id="userPhone">+91 XXXXX XXXXX</p>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SOS, Record & Help Buttons -->
+    <button id="sosButton" class="sos-button">🚨 SOS</button>
+    <button id="recordButton" class="sos-button">🎤 Record & Send</button>
+    <button id="helpButton" class="sos-button">🆘 Help</button>
+
+    <!-- Options Grid -->
+    <section class="options-grid">
+        <div class="option big-option" onclick="window.location.href='location.html'">📍<span>TrackMe</span></div>
+        <div class="option big-option" onclick="window.location.href='addcontact.html'">☎<span>Add Contact</span></div>
+        <div class="option big-option" onclick="window.open('https://forms.gle/PMZR5za2pAv9HrRR8', '_blank')">👍<span>Feedback</span></div>
+        <div class="option big-option" onclick="window.location.href='laws.html'">📄<span>Legal</span></div>
+        <div class="option big-option" onclick="window.location.href='helpline.html'">📞<span>Helpline</span></div>
+        <div class="option big-option" onclick="window.location.href='about.html'">📖<span>About</span></div>
+        <div class="option big-option" onclick="window.location.href='friends.html'">🤝<span>Friends</span></div>
+        <div class="option big-option" onclick="window.location.href='index.html'">↩<span>Log Out</span></div>
+    </section>
+
+    <script>
+        window.onload = function () {
+            const userName = localStorage.getItem('userName') || "User Name";
+            const userPhone = localStorage.getItem('userPhone') || "+91 XXXXX XXXXX";
+            document.getElementById('userName').innerText = userName;
+            document.getElementById('userPhone').innerText = userPhone;
+        };
+
+        // 🚨 SOS Button Logic (Fix: Location Now Works)
+        document.getElementById("sosButton").addEventListener("click", function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        let latitude = position.coords.latitude;
+                        let longitude = position.coords.longitude;
+                        let mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                        let message = `🚨 *SOS Alert!* 🚨\nI need help! My location:\n${mapsLink}`;
+                        sendEmergencyMessage(message);
+                    },
+                    () => alert("Location access denied! Enable GPS and try again."),
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                );
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        });
+
+        // 🎤 Record & Send Audio via Vocaroo
+        let vocarooOpened = false;
+
+        document.getElementById("recordButton").addEventListener("click", function () {
+            vocarooOpened = true;
+            window.open("https://vocaroo.com/", "_blank");
+        });
+
+        // Detect when user returns to the page
+        document.addEventListener("visibilitychange", function () {
+            if (document.visibilityState === "visible" && vocarooOpened) {
+                setTimeout(() => {
+                    let vocarooLink = prompt("Paste the Vocaroo audio link:");
+
+                    if (vocarooLink && vocarooLink.startsWith("https://voca.ro/")) {
+                        localStorage.setItem("vocarooLink", vocarooLink);
+                        alert("Audio link saved! Click 'Help' to send it.");
+                        vocarooOpened = false;
+                    } else {
+                        alert("Invalid Vocaroo link! Make sure it starts with 'https://voca.ro/'");
+                    }
+                }, 1000);
+            }
+        });
+
+        // 🔹 Help Button Logic (Sends Saved Audio Link)
+        document.getElementById("helpButton").addEventListener("click", function () {
+            let vocarooLink = localStorage.getItem("vocarooLink");
+
+            if (!vocarooLink) {
+                alert("No saved audio link! Please record and paste it first.");
+                return;
+            }
+
+            let message = `🚨 *Help Alert!* 🚨\n🎤 Audio Evidence: ${vocarooLink}`;
+            sendEmergencyMessage(message);
+        });
+
+        function sendEmergencyMessage(message) {
+            let friends = JSON.parse(localStorage.getItem("friends")) || [];
+            if (friends.length === 0) {
+                alert("No trusted contacts found! Please add a contact.");
+                return;
+            }
+
+            let emergencyContact = friends[0];
+            let relatives = emergencyContact?.relatives || [];
+
+            if (relatives.length < 3) {
+                alert("At least 3 relatives are required.");
+                return;
+            }
+
+            relatives.slice(0, 3).forEach((rel) => {
+                let phoneNumber = rel.phone.replace(/\s+/g, '');
+                let whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                setTimeout(() => {
+                    window.open(whatsappURL, "_blank");
+                }, 1000);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details - Safigo</title>
+    <style>
+        /* Styling for Details Page */
+        body {
+            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .details-container {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px; /* Ensures proper alignment */
+            animation: fadeIn 1s ease-in-out;
+            transform: scale(0.95);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .details-container:hover {
+            transform: scale(1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px; /* Improved input field spacing */
+            border: 2px solid #ddd;
+            border-radius: 8px; /* Adds rounded corners */
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #ee9ca7;
+            box-shadow: 0 0 8px rgba(238, 156, 167, 0.5);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: #9c27b0; /* Violet shade matching the Register button */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            background-color: #541b6d; /* Darker shade for hover effect */
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            top: 0;
+            left: -100%;
+            transition: 0.5s;
+        }
+
+        .submit-btn:hover::after {
+            left: 100%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .details-container {
+                padding: 20px;
+            }
+
+            input {
+                font-size: 14px; /* Adjusts font size for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="details-container">
+        <h2>Empower Yourself-Share your information</h2>
+        <form action="main.html" method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+            <div class="form-group">
+                <label for="alt-number">Alternate Number:</label>
+                <input type="tel" id="alt-number" name="alt-number" required>
+            </div>
+            <div class="form-group">
+                <label for="parent-name">Mother's/Father's Name:</label>
+                <input type="text" id="parent-name" name="parent-name" required>
+            </div>
+            <div class="form-group">
+                <label for="pincode">Pincode:</label>
+                <input type="text" id="pincode" name="pincode" required>
+            </div>
+            <div class="form-group">
+                <label for="aadhar">Aadhar Number:</label>
+                <input type="text" id="aadhar" name="aadhar" required>
+            </div>
+            <button type="submit" class="submit-btn">Next</button>
+        </form>
+    </div>
+</body>
+</html>

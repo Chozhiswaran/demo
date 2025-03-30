@@ -1,0 +1,204 @@
+/* Reset Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background: linear-gradient(135deg, #1e1e1e, #3a3a3a); /* Dark gradient for better glow contrast */
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    animation: slideIn ease-in 0.5s;
+}
+
+/* Glow Effect Animation */
+@keyframes glowEffect {
+    0% {
+        box-shadow: 0 0 10px rgba(161, 4, 170, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 25px rgb(223, 10, 202);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(143, 3, 179, 0.5);
+    }
+}
+
+/* Index Page Box */
+.opening-container {
+    background-color: #222; /* Darker shade for contrast */
+    border-radius: 12px;
+    width: 100%;
+    max-width: 420px; /* Increased width */
+    padding: 35px; /* More padding */
+    text-align: center;
+    color: white;
+    border: 2px solid rgba(161, 4, 170, 0.8);
+    animation: glowEffect 2s infinite ease-in-out; /* Smooth pulsing glow */
+}
+
+/* Welcome Message */
+.welcome-box h1 {
+    color: #00ffd5;
+    margin-bottom: 10px;
+}
+
+.welcome-box p {
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+/* Safety Image */
+.safety-image {
+    width: 100%;
+    max-width: 320px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Get Started Button */
+.get-started-btn {
+    display: inline-block;
+    background-color: #12be3d;
+    color: #222;
+    padding: 12px 30px; /* Bigger button */
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+    animation: glowEffect 2s infinite ease-in-out;
+}
+
+.get-started-btn:hover {
+    background-color: #7ea614;
+}
+
+/* Login Page Box */
+.login-container {
+    background-color: #222;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 380px; /* Increased width */
+    padding: 30px; /* More padding */
+    color: white;
+    border: 2px solid rgba(161, 4, 170, 0.8);
+    animation: glowEffect 2s infinite ease-in-out;
+}
+
+.login-box h2 {
+    text-align: center;
+    color: #1698bc;
+    margin-bottom: 20px;
+}
+
+/* Textbox Styling */
+.textbox {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.textbox input {
+    width: 100%;
+    padding: 12px; /* Bigger input field */
+    border: 2px solid rgba(161, 4, 170, 0.8);
+    border-radius: 5px;
+    outline: none;
+    font-size: 18px;
+    background: #333;
+    color: white;
+}
+
+/* OTP Button */
+#sendOtpBtn {
+    background-color: #12dc45;
+    color: #222;
+    border: none;
+    padding: 12px 15px; /* Bigger button */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+#sendOtpBtn:hover {
+    background-color: #7ea614;
+}
+
+/* Submit Button */
+input[type="submit"] {
+    width: 100%;
+    background-color: #9ccf1c;
+    color: #222;
+    padding: 12px; /* Bigger button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+input[type="submit"]:hover {
+    background-color: #7ea614;
+}
+
+/* Main Page Box */
+.main-container {
+    background-color: #222;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    padding: 35px;
+    color: white;
+}
+
+.main-container h1 {
+    color: #c5ff00;
+    text-align: center;
+}
+
+/* Options Grid */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.option-box {
+    background-color: #383838;
+    border-radius: 10px;
+    text-align: center;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.option-box:hover {
+    background-color: #4a4a4a;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Slide-in Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Safigo</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="api.js"></script>
+    
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Safigo - Login</h2>
+            <form id="loginForm" onsubmit="handleLogin(event)" autocomplete="off">
+                <div class="textbox">
+                    <input type="text" id="username" placeholder="Username" required autocomplete="off" oninput="validateUsername(this)">
+                </div>
+                <div class="textbox">
+                    <input type="text" id="phone" placeholder="Phone Number" required autocomplete="off" oninput="validatePhone(this)">
+                    <button type="button" id="sendOtpBtn">Send OTP</button>
+                </div>
+                <div class="textbox">
+                    <input type="text" id="otp" placeholder="Enter OTP" required disabled>
+                </div>
+                <button type="submit" id="loginBtn" value="Register" disabled onclick="location.href='main.html'" style="width: 250px; color: white; background-color: #32cd32; height: 40px; border: none; border-radius: 5px; cursor: pointer;">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { sendOTP, verifyOTP } from "./api.js";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            localStorage.clear();
+        });
+
+        function validateUsername(input) {
+            input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+        }
+
+        function validatePhone(input) {
+            input.value = input.value.replace(/\D/g, '').slice(0, 10);
+        }
+
+        document.getElementById("sendOtpBtn").addEventListener("click", async () => {
+            const username = document.getElementById('username').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const otpInput = document.getElementById('otp');
+
+            if (!username) return alert("Please enter your username.");
+            if (!phone || phone.length !== 10) return alert("Please enter a valid 10-digit phone number.");
+
+            const response = await sendOTP(username, phone);
+            if (response.success) {
+                alert("OTP sent successfully!");
+                otpInput.removeAttribute('disabled');
+                otpInput.focus();
+            } else {
+                alert(`Error: ${response.message}`);
+            }
+        });
+
+        document.getElementById("otp").addEventListener("input", async () => {
+            const phone = document.getElementById("phone").value;
+            const otpInput = document.getElementById("otp");
+            const loginBtn = document.getElementById("loginBtn");
+            otpInput.value = otpInput.value.slice(0, 6);
+
+            if (otpInput.value.length === 6) {
+                const response = await verifyOTP(phone, otpInput.value);
+                if (response.success) {
+                    alert("OTP Verified Successfully!");
+                    loginBtn.removeAttribute("disabled");
+                } else {
+                    alert("Invalid OTP. Please try again.");
+                    loginBtn.setAttribute("disabled", "true");
+                }
+            }
+        });
+
+        async function handleLogin(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+
+    try {
+        const response = await fetch("http://localhost:5000/saveUser", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, phone })
+        });
+
+        const data = await response.json();
+        console.log(data); // This should now work
+
+        if (data.success) {
+            localStorage.setItem('userName', username);
+            localStorage.setItem('userPhone', phone);
+            
+            alert("Registration successful! Redirecting...");
+            
+            // Fix 1: Remove loginBtn. from setTimeout and use it correctly
+            setTimeout(() => {
+                window.location.href = "main.html";
+            }, 1000);
+            
+        } else {
+            alert(data.message || "Error registering user.");
+        }
+        
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong! Try again.");
+    }
+}
+
+// Fix 2: Add event listener to the button
+loginBtn.addEventListener('click', handleLogin);
+    </script> 
+
+
+</body>
+</html>
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Empower Her</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="api.js"></script>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Empower Her - Login</h2>
+            <form id="loginForm" onsubmit="handleLogin(event)" autocomplete="off">
+                <div class="textbox">
+                    <input type="text" id="username" placeholder="Username" required autocomplete="off" oninput="validateUsername(this)">
+                </div>
+                <div class="textbox">
+                    <input type="text" id="phone" placeholder="Phone Number" required autocomplete="off" oninput="validatePhone(this)">
+                    <button type="button" id="sendOtpBtn">Send OTP</button>
+                </div>
+                <div class="textbox">
+                    <input type="text" id="otp" placeholder="Enter OTP" required disabled>
+                </div>
+                <button type="submit" id="loginBtn" disabled>Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { sendOTP, verifyOTP } from "./api.js";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            localStorage.clear();
+        });
+
+        function validateUsername(input) {
+            input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+        }
+
+        function validatePhone(input) {
+            input.value = input.value.replace(/\D/g, '').slice(0, 10);
+        }
+
+        document.getElementById("sendOtpBtn").addEventListener("click", async () => {
+            const username = document.getElementById('username').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const otpInput = document.getElementById('otp');
+
+            if (!username) return alert("Please enter your username.");
+            if (!phone || phone.length !== 10) return alert("Please enter a valid 10-digit phone number.");
+
+            const response = await sendOTP(username, phone);
+            if (response.success) {
+                alert("OTP sent successfully!");
+                otpInput.removeAttribute('disabled');
+                otpInput.focus();
+            } else {
+                alert(`Error: ${response.message}`);
+            }
+        });
+
+        document.getElementById("otp").addEventListener("input", async () => {
+            const phone = document.getElementById("phone").value;
+            const otpInput = document.getElementById("otp");
+            const loginBtn = document.getElementById("loginBtn");
+            otpInput.value = otpInput.value.slice(0, 6);
+
+            if (otpInput.value.length === 6) {
+                const response = await verifyOTP(phone, otpInput.value);
+                if (response.success) {
+                    alert("OTP Verified Successfully!");
+                    loginBtn.removeAttribute("disabled");
+                } else {
+                    alert("Invalid OTP. Please try again.");
+                    loginBtn.setAttribute("disabled", "true");
+                }
+            }
+        });
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            try {
+                const response = await fetch("http://localhost:5000/saveUser", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, phone })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    localStorage.setItem('userName', username);
+                    localStorage.setItem('userPhone', phone);
+                    alert("Login successful! Redirecting...");
+                    setTimeout(() => {
+                        window.location.href = "main.html";
+                    }, 1000);
+                } else {
+                    alert(data.message || "Error logging in.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Something went wrong! Try again.");
+            }
+        }
+    </script> 
+</body>
+</html> -->
+

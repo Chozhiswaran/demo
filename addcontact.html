@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safigo - Add Trusted Contacts</title>
+    <link rel="stylesheet" href="styleformain.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        .header {
+            background: #5a1d51;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .relative-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .relative-group input {
+            flex: 1;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #5a1d51;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #471240;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Add Trusted Contacts</h1>
+    </div>
+
+    <!-- Form Section -->
+    <div class="container">
+        <form id="friendsForm" autocomplete="off" onsubmit="saveDetails(event)">
+            <label for="userName">Your Name:</label>
+            <input type="text" id="userName" placeholder="Enter your name" required>
+
+            <label for="userPhone">Your Phone Number:</label>
+            <input type="tel" id="userPhone" placeholder="Enter your phone number" required>
+
+            <!-- Relative 1 -->
+            <div class="relative-group">
+                <input type="text" id="relative1" placeholder="Relative 1 Name" required>
+                <input type="tel" id="relative1Phone" placeholder="Relative 1 Phone" required>
+            </div>
+
+            <!-- Relative 2 -->
+            <div class="relative-group">
+                <input type="text" id="relative2" placeholder="Relative 2 Name" required>
+                <input type="tel" id="relative2Phone" placeholder="Relative 2 Phone" required>
+            </div>
+
+            <!-- Relative 3 -->
+            <div class="relative-group">
+                <input type="text" id="relative3" placeholder="Relative 3 Name" required>
+                <input type="tel" id="relative3Phone" placeholder="Relative 3 Phone" required>
+            </div>
+
+            <!-- Address -->
+            <label for="address">Your Address:</label>
+            <textarea id="address" rows="4" placeholder="Enter your address" required></textarea>
+
+            <button type="submit">Save Details</button>
+        </form>
+    </div>
+
+    <script>
+        function saveDetails(event) {
+            event.preventDefault();
+
+            // Get form values
+            const userName = document.getElementById('userName').value.trim();
+            const userPhone = document.getElementById('userPhone').value.trim();
+            const address = document.getElementById('address').value.trim();
+
+            if (!userName || !userPhone || !address) {
+                alert("Please fill in all details.");
+                return;
+            }
+
+            // Collect relatives' data
+            let relatives = [];
+            for (let i = 1; i <= 3; i++) {
+                const name = document.getElementById(`relative${i}`).value.trim();
+                const phone = document.getElementById(`relative${i}Phone`).value.trim();
+
+                if (name && phone) {
+                    relatives.push({ name, phone });
+                }
+            }
+
+            // Save all details in localStorage
+            let friends = JSON.parse(localStorage.getItem("friends")) || [];
+
+            let newEntry = {
+                userName,
+                userPhone,
+                relatives,
+                address
+            };
+
+            friends.push(newEntry);
+            localStorage.setItem("friends", JSON.stringify(friends));
+
+            alert("Details saved successfully!");
+            window.location.href = "friends.html"; // Redirect to Friends List Page
+        }
+    </script>
+
+</body>
+</html>

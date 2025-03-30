@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Me - Safigo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f8f8;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: white;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header img {
+            height: 30px;
+        }
+        .header-icons i {
+            margin-left: 15px;
+            font-size: 18px;
+        }
+        .container {
+            padding: 15px;
+        }
+        .map-container {
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .bottom-menu {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .bottom-menu a {
+            text-align: center;
+            font-size: 14px;
+            text-decoration: none;
+            color: black;
+        }
+        .trackme-btn {
+            background: #ff5e8a;
+            color: white;
+            border-radius: 50%;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body onload="showLocation()">
+    <div class="header">
+        <img src="logo.png" alt="Empower Her">
+        <div class="header-icons">
+            <i class="fa fa-bell"></i>
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+    <div class="container">
+        <div class="map-container">
+            <iframe id="mapFrame" src="" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+    </div>
+    <div class="bottom-menu">
+        <a href="#"><i class="fa fa-video"></i><br>Record</a>
+        <a href="#" class="trackme-btn"><i class="fa fa-map-marker-alt"></i><br>Track Me</a>
+        <a href="#" id="callButton"><i class="fa fa-phone"></i><br> Call</a>
+        <a href="#"><i class="fa fa-question-circle"></i><br>Help</a>
+    </div>
+
+    <script>
+        function showLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    let lat = position.coords.latitude;
+                    let lon = position.coords.longitude;
+                    document.getElementById("mapFrame").src = `https://www.google.com/maps?q=${lat},${lon}&output=embed`;
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Call showLocation on page load
+        showLocation();
+        // Refresh location every 30 seconds
+        setInterval(showLocation, 30000);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const callBtn = document.getElementById("callButton");
+
+            // Retrieve friends list from localStorage
+            let friends = JSON.parse(localStorage.getItem("friends")) || [];
+
+            console.log("Stored Friends Data:", friends); // Debugging log
+
+            // Find the first relative's phone number
+            let firstRelativePhone = null;
+            if (friends.length > 0 && friends[0].relatives.length > 0) {
+                firstRelativePhone = friends[0].relatives[0].phone.trim(); // Ensure number is trimmed
+                console.log("Calling:", firstRelativePhone); // Debugging log
+            }
+
+            if (firstRelativePhone) {
+                // If a relative exists, call them
+                callBtn.href = `tel:${firstRelativePhone}`;
+                callBtn.addEventListener("click", function () {
+                    console.log(`Dialing ${firstRelativePhone}`); // Debugging log
+                });
+            } else {
+                // If no relative exists, show an alert when clicking
+                callBtn.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    alert("No emergency contact found! Please add a relative first.");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

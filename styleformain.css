@@ -1,0 +1,288 @@
+/* General Styles */
+body {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    position: relative;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+    overflow-y: scroll !important; /* Forces vertical scrolling */
+    height:auto;
+}
+
+/* Floating Bubble Effect */
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+}
+
+.bubble {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, #ff4081, #6a1b9a); /* Pink & Purple Petal Effect */
+    opacity: 0.6;
+    border-radius: 50%;
+    animation: float 6s linear infinite;
+}
+
+/* Generate multiple bubbles */
+.bubble:nth-child(1) { left: 10%; animation-duration: 7s; }
+.bubble:nth-child(2) { left: 25%; width: 25px; height: 25px; animation-duration: 8s; }
+.bubble:nth-child(3) { left: 40%; width: 35px; height: 35px; animation-duration: 5s; }
+.bubble:nth-child(4) { left: 55%; animation-duration: 6s; }
+.bubble:nth-child(5) { left: 70%; width: 28px; height: 28px; animation-duration: 7s; }
+.bubble:nth-child(6) { left: 85%; width: 20px; height: 20px; animation-duration: 6s; }
+
+/* Header */
+.header {
+    background-color: #6a1b9a;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 24px;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+}
+
+/* Profile Section */
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    margin: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+/* Profile */
+.profile {
+    display: flex;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 70px;
+    height: 70px;
+    background-color: #ddd;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+}
+
+.profile-info {
+    margin-left: 15px;
+}
+
+.profile-info h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.profile-info p {
+    color: gray;
+    margin: 5px 0 0;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 15px;
+}
+
+/* Buttons */
+.big-btn {
+    background-color: #6a1b9a;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.big-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Options Grid */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    justify-items: center;
+}
+
+.big-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4eff7;
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 28px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.big-option span {
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.big-option:hover {
+    transform: scale(1.1);
+}
+
+/* Back Button */
+.back-btn {
+    background-color: #6a1b9a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .options-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn ease-in 0.8s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.big-option:active {
+    transform: scale(0.95);
+}
+
+body {
+    animation: slideIn ease-in 1s;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+/* General Styles */
+body {
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(120deg, #ff758c, #6a1b9a); /* Brighter Gradient */
+    overflow-x: hidden ;
+    position: relative;
+}
+
+/* Bubbles Container */
+.bubbles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -100px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    animation: floatUp 10s infinite linear;
+    opacity: 0.7;
+}
+
+/* Bubble Animation */
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(-50vh) scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Generate Multiple Bubbles */
+.bubble:nth-child(1) {
+    left: 10%;
+    animation-duration: 11s;
+    width: 50px;
+    height: 50px;
+}
+.bubble:nth-child(2) {
+    left: 25%;
+    animation-duration: 15s;
+    width: 30px;
+    height: 30px;
+}
+.bubble:nth-child(3) {
+    left: 40%;
+    animation-duration: 15s;
+    width: 40px;
+    height: 40px;
+}
+.bubble:nth-child(4) {
+    left: 55%;
+    animation-duration: 14s;
+    width: 35px;
+    height: 35px;
+}
+.bubble:nth-child(5) {
+    left: 70%;
+    animation-duration: 19s;
+    width: 50px;
+    height: 50px;
+}
+.bubble:nth-child(6) {
+    left: 85%;
+    animation-duration: 17s;
+    width: 25px;
+    height: 25px;
+}
+
